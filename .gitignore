@@ -1,0 +1,41 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.egg
+.Python
+
+# --- Environments ---
+.venv/
+venv/
+env/
+ENV/
+*.env
+*.venv
+
+# --- Jupyter / logs ---
+.ipynb_checkpoints/
+*.log
+
+# --- IDE / OS files ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- PyInstaller build output ---
+build/
+dist/
+*.spec
+
+# --- Streamlit cache ---
+.streamlit/
+.streamlit_cache/
+.streamlit-secrets.toml
+
+# --- Misc ---
+*.bak
+*.tmp
