@@ -4,6 +4,8 @@ from rotation_tool.data_model import Team, Player
 from rotation_tool.state_manager import (
     closer_sum,
     closer_status,
+    expected_minutes_sum,
+    expected_minutes_status,
     get_config,
     compute_segments,
     compute_default_boundaries,
@@ -57,16 +59,28 @@ def _sync_ends_from_current(player):
 
 
 def _team_header(team: Team):
-    total = closer_sum(team)
-    status = closer_status(total)
-    color = "#16a34a" if status == "ok" else "#dc2626"
+    closer_total = closer_sum(team)
+    closer_state = closer_status(closer_total)
+    closer_color = "#16a34a" if closer_state == "ok" else "#dc2626"
+
+    exp_total = expected_minutes_sum(team)
+    exp_state = expected_minutes_status(exp_total)
+    exp_color = "#16a34a" if exp_state == "ok" else "#dc2626"
+
     st.markdown(
-        f"**{team.name}**  ·  Closer total: "
-        f"<span style='background:{color};color:white;padding:1px 8px;border-radius:12px;'>{total:.2f} / 5.00</span>",
+        (
+            f"**{team.name}**  ·  Closer total: "
+            f"<span style='background:{closer_color};color:white;padding:1px 8px;border-radius:12px;'>{closer_total:.2f} / 5.00</span>"
+            f"  ·  Expected minutes: "
+            f"<span style='background:{exp_color};color:white;padding:1px 8px;border-radius:12px;'>{exp_total:.2f} / 240.00</span>"
+        ),
         unsafe_allow_html=True,
     )
-    if status != "ok":
+    # captions for problems (show both if both invalid)
+    if closer_state != "ok":
         st.caption("Closer weighting must total 5.00 (±0.01).")
+    if exp_state != "ok":
+        st.caption("Expected minutes across players should total 240.00 (±0.01).")
 
 
 def _timeline_key(player: Player) -> str:

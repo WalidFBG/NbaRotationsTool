@@ -22,7 +22,7 @@ HEADERS = [
     "Stint 6 minutes",
     "Stint 7 minutes",
     "Stint 8 minutes",
-    "StandardDeviationScaler",
+    "Standard Deviation Scaler",
 ]
 STINT_COLS = [f"Stint {i} minutes" for i in range(9)]
 
@@ -34,7 +34,7 @@ REQUIRED_HEADERS = {
     "Expected typical minutes",
     "Rotation archetype id",
     "Closer weighting",
-    "StandardDeviationScaler",
+    "Standard Deviation Scaler",
 }
 
 # -----------------------
@@ -163,7 +163,7 @@ def load_csv(file_like) -> GameData:
     # Iterate rows
     for _, row in df.iterrows():
         team_val = str(row.get("Team", "")).strip()
-        if team_val not in ("HomeTeam", "AwayTeam"):
+        if team_val not in ("Home", "Away"):
             # ignore rows for other teams / garbage
             continue
 
@@ -175,7 +175,8 @@ def load_csv(file_like) -> GameData:
             expected_minutes=_coerce_float(row.get("Expected typical minutes"), 0.0)
             or 0.0,
             closer_weighting=_coerce_float(row.get("Closer weighting"), 0.0) or 0.0,
-            stddev_scaler=_coerce_float(row.get("StandardDeviationScaler"), 1.0) or 1.0,
+            stddev_scaler=_coerce_float(row.get("Standard Deviation Scaler"), 1.0)
+            or 1.0,
         )
 
         # Collect stint minutes (ignore blanks)
@@ -187,7 +188,7 @@ def load_csv(file_like) -> GameData:
                     raw.append(v)
         player.stints_raw = raw
 
-        if team_val == "HomeTeam":
+        if team_val == "Home":
             home_players.append(player)
         else:
             away_players.append(player)
@@ -213,7 +214,7 @@ def export_csv(game: GameData) -> pd.DataFrame:
                 "Expected typical minutes": p.expected_minutes,
                 "Rotation archetype id": p.archetype_id or "",
                 "Closer weighting": p.closer_weighting,
-                "StandardDeviationScaler": p.stddev_scaler,
+                "Standard Deviation Scaler": p.stddev_scaler,
             }
             for i, col in enumerate(STINT_COLS):
                 row[col] = p.stints_raw[i] if i < len(p.stints_raw) else ""

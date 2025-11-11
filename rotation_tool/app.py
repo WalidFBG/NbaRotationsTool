@@ -145,18 +145,18 @@ def main():
     # --------------------------
     # Row 2: TEAM SWITCH
     # --------------------------
-    team_choice = st.radio("Team", ["HomeTeam", "AwayTeam"], horizontal=True)
+    team_choice = st.radio("Team", ["Home", "Away"], horizontal=True)
 
     # --------------------------
     # Body: Selected team
     # --------------------------
-    if team_choice == "HomeTeam":
+    if team_choice == "Home":
         render_team_panel(st.session_state.game.home_team)
     else:
         render_team_panel(st.session_state.game.away_team)
 
     st.subheader("On-Court Players Over Time")
-    if team_choice == "HomeTeam":
+    if team_choice == "Home":
         render_oncourt_chart(st.session_state.game.home_team)
     else:
         render_oncourt_chart(st.session_state.game.away_team)

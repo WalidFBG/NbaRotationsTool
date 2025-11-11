@@ -12,7 +12,7 @@ class Stint:
 class Player:
     player_id: str
     name: str
-    team: str  # "HomeTeam" or "AwayTeam"
+    team: str  # "Home" or "Away"
 
     archetype_id: Optional[str] = None
     expected_minutes: float = 0.0
@@ -35,5 +35,5 @@ class Team:
 
 @dataclass
 class GameData:
-    home_team: Team = field(default_factory=lambda: Team(name="HomeTeam"))
-    away_team: Team = field(default_factory=lambda: Team(name="AwayTeam"))
+    home_team: Team = field(default_factory=lambda: Team(name="Home"))
+    away_team: Team = field(default_factory=lambda: Team(name="Away"))

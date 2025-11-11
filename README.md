@@ -22,7 +22,7 @@ A **Streamlit-based desktop app** for editing and visualizing NBA rotation data.
 3. **Start the app**
 
 ```
-   streamlit run rotation_tool/app.py
+   $env:PYTHONPATH = "$PWD"; python -m streamlit run rotation_tool/app.py
 ```
 
 ---

@@ -44,6 +44,20 @@ def closer_status(total: float, tol: float = 0.01) -> str:
     return "ok" if abs(total - 5.0) <= tol else "bad"
 
 
+# ----- Expected minutes (team total should be 240 = 5 * 48) -----
+def expected_minutes_sum(team: Team) -> float:
+    """Return the sum of players' expected minutes, clamped to [0,48] each."""
+    return round(
+        sum(max(0.0, min(48.0, float(p.expected_minutes or 0.0))) for p in team.players),
+        6,
+    )
+
+
+def expected_minutes_status(total: float, target: float = 240.0, tol: float = 0.01) -> str:
+    """Return 'ok' if team total is within tolerance of target (240), else 'bad'."""
+    return "ok" if abs(total - target) <= tol else "bad"
+
+
 def split_on_off_indices(archetype_id: str) -> Tuple[List[int], List[int]]:
     cfg = get_config()
     arch = cfg.archetypes.get(archetype_id)
